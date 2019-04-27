@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
-    String baseurl = "http://79.127.126.110/Serial/";
+    String baseurl = "http://dl.upfdl.com/files/";
     Document doc;
     int choice;
     ListView list;
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 for (Element a : atags) {
                     listItems.add(a.text().replace("/", ""));
                 }
+                Log.i("List", listItems.toString());
                 return atags;
 
             } catch (IOException e) {
@@ -127,6 +132,26 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         updateitems(0);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
 
